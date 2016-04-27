@@ -9,24 +9,12 @@ import StatusCodes._
 class DemoServiceSpec extends Specification with Specs2RouteTest with DemoService {
   def actorRefFactory = system
 
-  "MyService" should {
+  "DemoService" should {
 
-    "return a greeting for GET requests to the root path" in {
-      Get() ~> demoRoute ~> check {
-        responseAs[String] must contain("Say hello")
-      }
-    }
-
-    "leave GET requests to other paths unhandled" in {
-      Get("/kermit") ~> demoRoute ~> check {
-        handled must beFalse
-      }
-    }
-
-    "return a MethodNotAllowed error for PUT requests to the root path" in {
-      Put() ~> sealRoute(demoRoute) ~> check {
-        status === MethodNotAllowed
-        responseAs[String] === "HTTP method not allowed, supported methods: GET"
+    "return a message saying 'demo' for GET requests to the /demo path" in {
+      Get("/demo") ~> demoRoute ~> check {
+        status === OK
+        body shouldEqual HttpEntity(ContentTypes.`application/json`, "{\"message\": \"demo\"}")
       }
     }
   }

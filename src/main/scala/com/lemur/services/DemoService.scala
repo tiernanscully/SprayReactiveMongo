@@ -10,7 +10,7 @@ trait DemoService extends HttpService {
       get {
         respondWithMediaType(MediaTypes.`application/json`) {
           complete {
-            "{\"message\" : \"demo\"}"
+            "{\"message\": \"demo\"}"
           }
         }
       }
