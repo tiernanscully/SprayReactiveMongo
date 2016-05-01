@@ -1,27 +1,30 @@
 package com.lemur.services
 
+import com.lemur.common.Constants
 import com.lemur.utils.GoogleVerifier
 import spray.http.MediaTypes
-import spray.routing.{Route, RequestContext, HttpService}
+import spray.routing.{HttpService}
 
 /**
   * Created by djhurley on 02/04/16.
   */
 trait LoginService extends HttpService {
 
+  var googleVerifier = new GoogleVerifier()
+
   val loginRoute =
-    path("login") {
+    path(Constants.LoginPath) {
       get {
         respondWithMediaType(MediaTypes.`application/json`) {
-          headerValueByName("token") { token =>
-            val isValidToken = GoogleVerifier.verify(token)
+          headerValueByName(Constants.HeaderTokenKey) { token =>
+            val isValidToken = googleVerifier.verify(token)
             if(isValidToken) {
               respondWithStatus(200) {
-                complete("{\"message\": \"Token approved\"}")
+                complete(Constants.TokenApprovedMessage)
               }
             }else{
               respondWithStatus(401) {
-                complete("{\"message\": \"Unauthorized access\"}")
+                complete(Constants.UnauthorizedAccessMessage)
               }
             }
           }

@@ -1,4 +1,4 @@
-organization  := "com.example"
+organization  := "com.lemur"
 
 version       := "0.1"
 
@@ -16,6 +16,8 @@ libraryDependencies ++= {
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
     "com.typesafe.akka"   %%  "akka-testkit"  % akkaV   % "test",
     "org.specs2"          %%  "specs2-core"   % "2.3.11" % "test",
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test",
+    "org.mockito" % "mockito-core" % "1.9.5",
     "com.google.api-client" % "google-api-client" % "1.20.0"
   )
 }

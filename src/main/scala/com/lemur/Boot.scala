@@ -2,6 +2,7 @@ package com.lemur
 
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
+import com.lemur.common.Constants
 import spray.can.Http
 import akka.pattern.ask
 import akka.util.Timeout
@@ -13,5 +14,5 @@ object Boot extends App {
   val lemurService = system.actorOf(Props[RoutesActor], "lemur-service")
 
   implicit val timeout = Timeout(5.seconds)
-  IO(Http) ? Http.Bind(lemurService, interface = "localhost", port = 8080)
+  IO(Http) ? Http.Bind(lemurService, interface = Constants.ServerIpAddress, port = Constants.ServerPort)
 }
