@@ -5,20 +5,26 @@ import com.lemur.utils.GoogleVerifier
 import org.scalatest.mock.MockitoSugar
 import org.specs2.mutable.Specification
 import spray.http.HttpHeaders.RawHeader
-import spray.http.{StatusCodes, ContentTypes, HttpEntity}
+import spray.http.{ StatusCodes, ContentTypes, HttpEntity }
 import spray.testkit.Specs2RouteTest
 import StatusCodes._
+import com.lemur.utils.GoogleVerifier
 
 /**
-  * Created by djhurley on 27/04/16.
-  */
-class LoginServiceSpec extends Specification with Specs2RouteTest with LoginService with MockitoSugar{
+ * Created by djhurley on 27/04/16.
+ */
+
+trait ExtendedLoginService extends LoginService {
+  override def verifyToken(token: String): Boolean = {
+    token == "123456789"
+  }
+}
+
+class LoginServiceSpec extends Specification with Specs2RouteTest with ExtendedLoginService with MockitoSugar {
   def actorRefFactory = system;
 
   val validTokenHeader = RawHeader("token", "123456789");
   val invalidTokenHeader = RawHeader("token", "987654321");
-  this.googleVerifier = mock[GoogleVerifier];
-  Mockito.when(googleVerifier.verify("123456789")).thenReturn(true);
 
   "LoginService" should {
 

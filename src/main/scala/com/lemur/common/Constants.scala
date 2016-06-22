@@ -1,17 +1,18 @@
 package com.lemur.common
 
 /**
-  * Created by djhurley on 01/05/16.
-  */
+ * Created by djhurley on 01/05/16.
+ */
 object Constants {
-  val ServerIpAddress = "192.168.100.161"
-  val ServerPort = 8080
-  val ClientId = "822785640622-f0tj5dvauvn97hieujjpbtfbffvr5uvc.apps.googleusercontent.com"
-  val GoogleIssuer = "https://accounts.google.com"
 
-  val LoginPath = "login"
+  val serverIpAddress = "192.168.100.161"
+  val serverPort = 8080
+  val clientId = "822785640622-f0tj5dvauvn97hieujjpbtfbffvr5uvc.apps.googleusercontent.com"
+  val googleIssuer = "https://accounts.google.com"
 
-  val HeaderTokenKey = "token"
-  val TokenApprovedMessage = "{\"message\": \"Token approved\"}"
-  val UnauthorizedAccessMessage = "{\"message\": \"Unauthorized access\"}"
+  val loginPath = "login"
+
+  val headerTokenKey = "token"
+  val tokenApprovedMessage = "{\"message\": \"Token approved\"}"
+  val unauthorizedAccessMessage = "{\"message\": \"Unauthorized access\"}"
 }
