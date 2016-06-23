@@ -1,10 +1,6 @@
 package com.lemur.common
 
-/**
- * Created by djhurley on 01/05/16.
- */
 object Constants {
-
   val serverIpAddress = "localhost"
   val serverPort = 8080
   val clientId = "822785640622-f0tj5dvauvn97hieujjpbtfbffvr5uvc.apps.googleusercontent.com"
@@ -13,6 +9,7 @@ object Constants {
   val loginPath = "login"
 
   val headerTokenKey = "token"
-  val tokenApprovedMessage = "{\"message\": \"Token approved\"}"
-  val unauthorizedAccessMessage = "{\"message\": \"Unauthorized access\"}"
+  val tokenApprovedMessage = "{\"message\": \"Token approved.\"}"
+  val unauthorizedAccessMessage = "{\"message\": \"Unauthorized access.\"}"
+  val invalidTokenMessage = "{\"message\": \"Token provided is invalid.\"}"
 }
