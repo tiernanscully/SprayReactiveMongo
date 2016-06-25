@@ -14,5 +14,5 @@ object Boot extends App {
   val lemurService = system.actorOf(Props[RoutesActor], "lemur-service")
 
   implicit val timeout = Timeout(5.seconds)
-  IO(Http) ? Http.Bind(lemurService, interface = serverIpAddress, port = serverPort)
+  IO(Http) ? Http.Bind(lemurService, interface = serverIpAddress, port = 80)
 }
