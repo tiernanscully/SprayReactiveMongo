@@ -13,3 +13,5 @@ services:
   mongo:
     image: mongo:3.2.7
     container_name: db1
+    volumes:
+         - .:/var/lib/mongo
