@@ -1,0 +1,15 @@
+version: '2'
+services:
+  lemur-service:
+    build: .
+    image: lemur17/lemur-service
+    container_name: service1
+    ports:
+     - "8080:8080"
+    volumes:
+     - .:/usr/src/lemur
+    depends_on:
+     - mongo
+  mongo:
+    image: mongo:3.2.7
+    container_name: db1
