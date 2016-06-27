@@ -19,7 +19,8 @@ libraryDependencies ++= {
     "org.scalamock" %% "scalamock-scalatest-support" % "3.2.2" % "test",
     "org.mockito" % "mockito-core" % "1.9.5" % "test",
     "com.google.api-client" % "google-api-client" % "1.20.0",
-    "com.gettyimages" %% "spray-swagger" % "0.5.1"
+    "com.gettyimages" %% "spray-swagger" % "0.5.1",
+    "org.reactivemongo" %% "reactivemongo" % "0.11.14"
   )
 }
 

@@ -1,12 +1,12 @@
 package com.lemur.utils
 
-import scala.collection.mutable.ArrayBuffer
-import collection.JavaConversions._
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
-import com.lemur.common.Constants.clientId
-import com.lemur.common.Constants.googleIssuer
+import com.lemur.common.Constants.{clientId, googleIssuer}
+
+import scala.collection.JavaConversions._
+import scala.collection.mutable.ArrayBuffer
 
 trait Verifier {
 

@@ -2,9 +2,9 @@ package com.example
 
 import com.lemur.services.DemoService
 import org.specs2.mutable.Specification
-import spray.testkit.Specs2RouteTest
+import spray.http.StatusCodes._
 import spray.http._
-import StatusCodes._
+import spray.testkit.Specs2RouteTest
 
 class DemoServiceSpec extends Specification with Specs2RouteTest with DemoService {
   def actorRefFactory = system

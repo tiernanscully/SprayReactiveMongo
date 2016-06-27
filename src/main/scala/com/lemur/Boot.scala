@@ -1,11 +1,12 @@
 package com.lemur
 
-import akka.actor.{ ActorSystem, Props }
+import akka.actor.{ActorSystem, Props}
 import akka.io.IO
-import com.lemur.common.Constants._
-import spray.can.Http
 import akka.pattern.ask
 import akka.util.Timeout
+import com.lemur.common.Constants._
+import spray.can.Http
+
 import scala.concurrent.duration._
 
 object Boot extends App {

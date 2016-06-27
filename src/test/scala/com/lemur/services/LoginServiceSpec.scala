@@ -1,14 +1,11 @@
 package com.lemur.services
 
-import org.mockito.Mockito
-import com.lemur.utils.GoogleVerifier
 import org.scalatest.mock.MockitoSugar
 import org.specs2.mutable.Specification
 import spray.http.HttpHeaders.RawHeader
-import spray.http.{ StatusCodes, ContentTypes, HttpEntity }
+import spray.http.StatusCodes._
+import spray.http.{ContentTypes, HttpEntity, StatusCodes}
 import spray.testkit.Specs2RouteTest
-import StatusCodes._
-import com.lemur.utils.GoogleVerifier
 
 /**
  * Created by djhurley on 27/04/16.
