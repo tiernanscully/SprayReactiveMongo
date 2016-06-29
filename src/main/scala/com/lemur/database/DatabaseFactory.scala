@@ -21,6 +21,6 @@ object DatabaseFactory {
   private val credentials = List(Authenticate(databaseName, userName, password))
   private val connection = driver.connection(server, authentications = credentials)
 
-  def database: Future[DefaultDB] = connection.database(databaseName)
+  def futureDatabase: Future[DefaultDB] = connection.database(databaseName)
 
 }

@@ -12,7 +12,7 @@ import scala.concurrent.duration._
 object Boot extends App {
   implicit val system = ActorSystem("on-spray-can")
 
-  val lemurService = system.actorOf(Props[RoutesActor], "lemur-service")
+  val lemurService = system.actorOf(Props[RoutesActor], "web-service")
 
   implicit val timeout = Timeout(5.seconds)
   IO(Http) ? Http.Bind(lemurService, interface = serverIpAddress, port = serverPort)

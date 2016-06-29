@@ -13,7 +13,7 @@ trait DemoService extends HttpService {
     new ApiResponse(code = 200, message = "Demo message returned.")
   ))
   def demoRoute =
-    path("demo") {
+    path("list") {
       get {
         respondWithMediaType(MediaTypes.`application/json`) {
           complete {
