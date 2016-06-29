@@ -1,6 +1,6 @@
 package com.lemur.services
 
-import com.lemur.models.CommonMessageModel
+import com.lemur.model.CommonMessageModel
 import com.wordnik.swagger.annotations.{Api, _}
 import spray.http._
 import spray.routing.HttpService

@@ -1,4 +1,4 @@
-package com.lemur.models
+package com.lemur.model
 
 import com.wordnik.swagger.annotations.{ApiModel, ApiModelProperty}
 

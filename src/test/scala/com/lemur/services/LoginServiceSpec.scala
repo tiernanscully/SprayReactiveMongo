@@ -4,7 +4,7 @@ import org.scalatest.mock.MockitoSugar
 import org.specs2.mutable.Specification
 import spray.http.HttpHeaders.RawHeader
 import spray.http.StatusCodes._
-import spray.http.{ContentTypes, HttpEntity, StatusCodes}
+import spray.http.{ContentTypes, HttpEntity}
 import spray.testkit.Specs2RouteTest
 
 /**
