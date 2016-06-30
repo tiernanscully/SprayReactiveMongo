@@ -35,8 +35,8 @@ trait EventDao extends MongoDao {
     for {
       collection <- collectionFuture
       eventProducer = collection.find(queryById(id)).cursor[Event]()
-      optionalHead <- eventProducer.headOption
-    } yield optionalHead
+      event <- eventProducer.headOption
+    } yield event
   }
 
   def findByParameters(values: BSONDocument): Future[List[Event]] = {
