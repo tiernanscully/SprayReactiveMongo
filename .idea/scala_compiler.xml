@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <option name="incrementalityType" value="SBT" />
     <profile name="SBT 1" modules="lemur-backend">
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
@@ -10,7 +9,7 @@
         <parameter value="utf8" />
       </parameters>
       <plugins>
-        <plugin path="C:\Users\Owner\.ivy2\cache\com.artima.supersafe\supersafe_2.11.8\jars\supersafe_2.11.8-1.1.0-RC6.jar" />
+        <plugin path="$USER_HOME$/.ivy2/cache/com.artima.supersafe/supersafe_2.11.8/jars/supersafe_2.11.8-1.1.0-RC6.jar" />
       </plugins>
     </profile>
   </component>

@@ -28,5 +28,4 @@ libraryDependencies ++= {
     "org.reactivemongo" %% "reactivemongo" % "0.11.14"
   )
 }
-
 Revolver.settings

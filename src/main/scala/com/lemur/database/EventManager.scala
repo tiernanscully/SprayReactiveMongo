@@ -3,18 +3,18 @@ package com.lemur.database
 import com.lemur.model.domain.Event
 import reactivemongo.api.collections.bson.BSONCollection
 import reactivemongo.bson.{BSONDocument, BSONObjectID}
-
+import DatabaseConnector.database
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /**
   * Created by lemur on 29/06/16.
   */
-trait EventDao extends MongoDao {
+object EventManager extends DatabaseManager[Event] {
 
   val collectionFuture: Future[BSONCollection] = database.map(_ ("events"))
 
-  def insert(event: Event): Future[Boolean] = {
+  override def insert(event: Event): Future[Boolean] = {
     require(event != null)
     for {
       collection <- collectionFuture
@@ -22,7 +22,7 @@ trait EventDao extends MongoDao {
     } yield writeResult.ok
   }
 
-  def updateById(event: Event): Future[Boolean] = {
+  override def updateById(event: Event): Future[Boolean] = {
     require(event != null)
     for {
       collection <- collectionFuture
@@ -30,7 +30,7 @@ trait EventDao extends MongoDao {
     } yield writeResult.ok
   }
 
-  def findById(id: BSONObjectID): Future[Option[Event]] = {
+  override def findById(id: BSONObjectID): Future[Option[Event]] = {
     require(id != null)
     for {
       collection <- collectionFuture
@@ -39,7 +39,7 @@ trait EventDao extends MongoDao {
     } yield event
   }
 
-  def findByParameters(values: BSONDocument): Future[List[Event]] = {
+  override def findByParameters(values: BSONDocument): Future[List[Event]] = {
     require(values != null)
     for {
       collection <- collectionFuture
@@ -48,7 +48,7 @@ trait EventDao extends MongoDao {
     } yield eventList
   }
 
-  def findAll(values: BSONDocument): Future[List[Event]] = {
+  override def findAll(values: BSONDocument): Future[List[Event]] = {
     require(values != null)
     for {
       collection <- collectionFuture
@@ -57,16 +57,12 @@ trait EventDao extends MongoDao {
     } yield eventList
   }
 
-  def deleteById(id: BSONObjectID): Future[Boolean] = {
+  override def deleteById(id: BSONObjectID): Future[Boolean] = {
     require(id != null)
     for {
       collection <- collectionFuture
       writeResult <- collection.remove(queryById(id))
     } yield writeResult.ok
   }
-
-  private def queryById(id: BSONObjectID) = BSONDocument("_id" -> id)
-
-  private def emptyQuery = BSONDocument()
 
 }
