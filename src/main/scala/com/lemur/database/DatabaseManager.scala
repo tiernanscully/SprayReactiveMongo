@@ -1,7 +1,7 @@
 package com.lemur.database
 
 import com.lemur.model.domain.DomainEntity
-import reactivemongo.bson.{BSONDocument, BSONObjectID}
+import reactivemongo.bson.BSONDocument
 import scala.concurrent.Future
 
 /**
@@ -11,17 +11,17 @@ trait DatabaseManager[T <: DomainEntity] {
 
   def insert(dbEntity: T): Future[Boolean]
 
-  def updateById(dbEntity: T): Future[Boolean]
+  def update(newDbEntity: T): Future[Boolean]
 
-  def findById(id: BSONObjectID): Future[Option[T]]
+  def findById(id: String): Future[Option[T]]
 
   def findByParameters(values: BSONDocument): Future[List[T]]
 
-  def findAll(values: BSONDocument): Future[List[T]]
+  def findAll(): Future[List[T]]
 
-  def deleteById(id: BSONObjectID): Future[Boolean]
+  def deleteById(id: String): Future[Boolean]
 
-  def queryById(id: BSONObjectID): BSONDocument = BSONDocument("_id" -> id)
+  def queryById(id: String): BSONDocument = BSONDocument("_id" -> id)
 
   def emptyQuery: BSONDocument = BSONDocument()
 

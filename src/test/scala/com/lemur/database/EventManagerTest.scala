@@ -1,20 +1,15 @@
 package com.lemur.database
 
-import de.flapdoodle.embed.mongo.distribution._
-import com.github.simplyscala.{MongoEmbedDatabase, MongodProps}
 import com.lemur.model.domain.Event
-import org.scalatest.{BeforeAndAfter, FunSuite}
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.time.{Milliseconds, Minutes, Span}
+import reactivemongo.bson.BSONDocument
+
+import scala.concurrent.Await
 
 /**
   * Created by lemur on 30/06/16.
   */
-class EventManagerTest extends FunSuite with MongoEmbedDatabase with BeforeAndAfter with ScalaFutures {
+class EventManagerTest extends DatabaseManagerTestSpec[Event] {
 
-  implicit val defaultPatience = PatienceConfig(timeout = Span(5, Minutes), interval = Span(500, Milliseconds))
-
-  var mongoInstance: MongodProps = null
   val sampleEvent1 = Event("5-aside",
     "Football with the lads",
     "Sport",
@@ -23,53 +18,90 @@ class EventManagerTest extends FunSuite with MongoEmbedDatabase with BeforeAndAf
     "53.4239",
     "7.9407")
 
-  before {
-    try {
-      mongoInstance = mongoStart(port = 27017, version = Version.V2_7_1)
-    }
-    catch {
-      case ex: Exception => println("Mongo is already running locally on port 27017")
-    }
-  }
+  val updatedSampleEvent1 = sampleEvent1.copy(title = "Rugby")
 
-  after {
-    mongoStop(mongoInstance)
+  val sampleEvent2 = Event("Poker",
+    "Poker with the lads",
+    "Gaming",
+    "2016-07-01T18:15:00+01:00",
+    "2016-07-01T20:15:00+01:00",
+    "53.4239",
+    "7.9407")
+
+  private val locationQuery = BSONDocument("latitude" -> "53.4239", "longitude" -> "7.9407")
+
+  private def loadEventsIntoDatabase(): Unit = {
+    loadEventIntoDB(sampleEvent1)
+    loadEventIntoDB(sampleEvent2)
   }
 
   private def loadEventIntoDB(event: Event): Unit = {
-    val insertOperationResult = EventManager.insert(sampleEvent1)
-    whenReady(insertOperationResult) {
-      result => assert(result)
-    }
-    println("Event has been loaded into database")
+    val insertOperationResult = Await.result(EventManager.insert(event), timeout)
+    assert(insertOperationResult)
   }
 
-  test("Should be able to access database") {
-    whenReady(DatabaseConnector.database) {
-      result => println("Database is up and running!")
-    }
+  "An event" should "be able to be inserted into the database " in {
+    loadEventsIntoDatabase()
   }
 
-  test("Should be able to insert an event into database") {
-    loadEventIntoDB(sampleEvent1)
-  }
-
-  test("Should not be able to insert the same event into database twice") {
-    loadEventIntoDB(sampleEvent1)
-    intercept[Exception] {
+  "An event" should "not be able to be inserted into the database twice" in {
+    loadEventsIntoDatabase()
+    intercept[DatabaseInsertionException] {
       loadEventIntoDB(sampleEvent1)
     }
   }
 
-  test("Should be able to find an event in database after adding it") {
-    loadEventIntoDB(sampleEvent1)
-    val findOperationResult = EventManager.findById(sampleEvent1.id)
-    whenReady(findOperationResult) {
-      result => {
-        assert(result.isDefined)
-        assert(result.get == sampleEvent1)
-      }
-    }
+  "An event" should "be able to be deleted after it has been inserted into the database" in {
+    loadEventsIntoDatabase()
+    assert(findEvent(sampleEvent1.id).isDefined)
+    val deletionOperationResult = Await.result(EventManager.deleteById(sampleEvent1.id), timeout)
+    assert(deletionOperationResult)
+    assert(findEvent(sampleEvent1.id).isEmpty)
+  }
+
+  "An event" should "be able to be updated after it has been inserted into the database" in {
+    loadEventsIntoDatabase()
+    val oldEvent = findEvent(sampleEvent1.id).get
+    assert(oldEvent.id === sampleEvent1.id)
+    assert(oldEvent.title === "5-aside")
+    val updateOperationResult = Await.result(EventManager.update(updatedSampleEvent1), timeout)
+    assert(updateOperationResult)
+    val updatedEvent = findEvent(sampleEvent1.id).get
+    assert(updatedEvent.id === sampleEvent1.id)
+    assert(updatedEvent.title === "Rugby")
+  }
+
+  "An event" should "be retrievable by id field since id field is unique" in {
+    loadEventsIntoDatabase()
+    val event = findEvent(sampleEvent1.id)
+    assert(event.isDefined)
+    assert(event.get === sampleEvent1)
+  }
+
+  "No event" should "be retrieved if it doesn't exists in the database" in {
+    loadEventsIntoDatabase()
+    val event = findEvent("random id")
+    assert(event.isEmpty)
+  }
+
+  def findEvent(id: String): Option[Event] = {
+    Await.result(EventManager.findById(id), timeout)
+  }
+
+  "A list of events" should "be retrievable by field values" in {
+    loadEventsIntoDatabase()
+    val eventList = Await.result(EventManager.findByParameters(locationQuery), timeout)
+    assert(eventList.size == 2)
+    assert(eventList.head === sampleEvent1)
+    assert(eventList.tail.head === sampleEvent2)
+  }
+
+  "All events in the database" should "be retrievable" in {
+    loadEventsIntoDatabase()
+    val eventList = Await.result(EventManager.findAll(), timeout)
+    assert(eventList.size == 2)
+    assert(eventList.head === sampleEvent1)
+    assert(eventList.tail.head === sampleEvent2)
   }
 
 }

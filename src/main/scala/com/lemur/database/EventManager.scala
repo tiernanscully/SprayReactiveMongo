@@ -2,7 +2,7 @@ package com.lemur.database
 
 import com.lemur.model.domain.Event
 import reactivemongo.api.collections.bson.BSONCollection
-import reactivemongo.bson.{BSONDocument, BSONObjectID}
+import reactivemongo.bson.BSONDocument
 import DatabaseConnector.database
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -12,57 +12,80 @@ import scala.concurrent.Future
   */
 object EventManager extends DatabaseManager[Event] {
 
-  val collectionFuture: Future[BSONCollection] = database.map(_ ("events"))
+  def collectionFuture: Future[BSONCollection] = database.map(_ ("events"))
 
   override def insert(event: Event): Future[Boolean] = {
     require(event != null)
-    for {
+    val writeResult = for {
       collection <- collectionFuture
-      writeResult <- collection.insert(event)
-    } yield writeResult.ok
+      result <- collection.insert(event)
+    } yield result.ok
+
+    writeResult.recover {
+      case ex: Exception => throw new DatabaseInsertionException(ex)
+    }
   }
 
-  override def updateById(event: Event): Future[Boolean] = {
+  override def update(event: Event): Future[Boolean] = {
     require(event != null)
-    for {
+    val writeResult = for {
       collection <- collectionFuture
-      writeResult <- collection.update(queryById(event.id), event)
-    } yield writeResult.ok
+      result <- collection.update(queryById(event.id), event)
+    } yield result.ok
+
+    writeResult.recover {
+      case ex: Exception => throw new DatabaseUpdateException(ex)
+    }
   }
 
-  override def findById(id: BSONObjectID): Future[Option[Event]] = {
+
+  override def deleteById(id: String): Future[Boolean] = {
     require(id != null)
-    for {
+    val deleteResult = for {
+      collection <- collectionFuture
+      result <- collection.remove(queryById(id))
+    } yield result.ok
+
+    deleteResult.recover {
+      case ex: Exception => throw new DatabaseDeletionException(ex)
+    }
+  }
+
+
+  override def findById(id: String): Future[Option[Event]] = {
+    require(id != null)
+    val event = for {
       collection <- collectionFuture
       eventProducer = collection.find(queryById(id)).cursor[Event]()
-      event <- eventProducer.headOption
-    } yield event
+      result <- eventProducer.headOption
+    } yield result
+
+    event.recover {
+      case ex: Exception => throw new DatabaseFindException(ex)
+    }
   }
 
   override def findByParameters(values: BSONDocument): Future[List[Event]] = {
     require(values != null)
-    for {
+    val events = for {
       collection <- collectionFuture
       eventProducer = collection.find(values).cursor[Event]()
-      eventList <- eventProducer.collect[List]()
-    } yield eventList
+      result <- eventProducer.collect[List]()
+    } yield result
+
+    events.recover {
+      case ex: Exception => throw new DatabaseFindException(ex)
+    }
   }
 
-  override def findAll(values: BSONDocument): Future[List[Event]] = {
-    require(values != null)
-    for {
+  override def findAll(): Future[List[Event]] = {
+    val events = for {
       collection <- collectionFuture
-      eventProducer = collection.find(emptyQuery).cursor[Event]()
-      eventList <- eventProducer.collect[List]()
-    } yield eventList
-  }
+      result <- collection.find(emptyQuery).cursor[Event]().collect[List]()
+    } yield result
 
-  override def deleteById(id: BSONObjectID): Future[Boolean] = {
-    require(id != null)
-    for {
-      collection <- collectionFuture
-      writeResult <- collection.remove(queryById(id))
-    } yield writeResult.ok
+    events.recover {
+      case ex: Exception => throw new DatabaseFindException(ex)
+    }
   }
-
 }

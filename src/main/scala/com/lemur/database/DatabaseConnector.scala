@@ -1,7 +1,7 @@
 package com.lemur.database
 
 import com.typesafe.config.ConfigFactory
-import reactivemongo.api.{MongoConnection, MongoDriver}
+import reactivemongo.api.{DefaultDB, MongoConnection, MongoDriver}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -15,7 +15,7 @@ object DatabaseConnector {
 
   private val driver = new MongoDriver
 
-  def database = for {
+  def database: Future[DefaultDB] = for {
     uri <- Future.fromTry(MongoConnection.parseURI(config.getString("mongodb.uri")))
     con = driver.connection(uri)
     dn <- Future(uri.db.get)
