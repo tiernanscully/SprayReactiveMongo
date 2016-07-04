@@ -1,6 +1,6 @@
 package com.lemur.database
 
-import com.lemur.model.domain.DomainEntity
+import com.lemur.models.domain.DomainEntity
 import reactivemongo.api.collections.bson.BSONCollection
 import reactivemongo.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter}
 import scala.concurrent.ExecutionContext.Implicits.global
