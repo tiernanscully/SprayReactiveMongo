@@ -1,6 +1,6 @@
 package com.lemur.database
 
-import com.lemur.model.domain.Event
+import com.lemur.models.domain.Event
 import reactivemongo.bson.BSONDocument
 
 import scala.concurrent.Await

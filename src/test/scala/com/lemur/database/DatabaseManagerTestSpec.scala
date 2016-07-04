@@ -6,7 +6,7 @@ import scala.concurrent.duration._
 import org.scalatest._
 import de.flapdoodle.embed.mongo.distribution._
 import com.github.simplyscala.{MongoEmbedDatabase, MongodProps}
-import com.lemur.model.domain.DomainEntity
+import com.lemur.models.domain.DomainEntity
 import org.scalatest.{BeforeAndAfter, FlatSpec}
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{Milliseconds, Minutes, Span}

@@ -1,4 +1,4 @@
-package com.lemur.model.domain
+package com.lemur.models.domain
 
 import com.lemur.common.Copying
 import reactivemongo.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter, BSONObjectID}
