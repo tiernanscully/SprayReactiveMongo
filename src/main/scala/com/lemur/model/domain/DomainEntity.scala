@@ -3,9 +3,11 @@ package com.lemur.model.domain
 import com.lemur.common.Copying
 import reactivemongo.bson.{BSONDocument, BSONDocumentReader, BSONDocumentWriter, BSONObjectID}
 
-sealed trait DomainEntity
+sealed trait DomainEntity{
+  def id: String
+}
 
-case class Event private(id: String,
+case class Event private(val id: String,
                          title: String,
                          description: String,
                          category: String,
@@ -15,6 +17,8 @@ case class Event private(id: String,
                          longitude: String) extends DomainEntity
 
 object Event extends Copying[Event]{
+
+  val columnNames = Array("_id","title","description","category","startTime","endTime","latitude","longitude")
 
   def apply(title: String,
             description: String,
@@ -26,28 +30,28 @@ object Event extends Copying[Event]{
 
   implicit object EventReader extends BSONDocumentReader[Event] {
     def read(doc: BSONDocument): Event = apply(
-      doc.getAs[String]("_id").get,
-      doc.getAs[String]("title").get,
-      doc.getAs[String]("description").get,
-      doc.getAs[String]("category").get,
-      doc.getAs[String]("startTime").get,
-      doc.getAs[String]("endTime").get,
-      doc.getAs[String]("latitude").get,
-      doc.getAs[String]("longitude").get
+      doc.getAs[String](columnNames(0)).get,
+      doc.getAs[String](columnNames(1)).get,
+      doc.getAs[String](columnNames(2)).get,
+      doc.getAs[String](columnNames(3)).get,
+      doc.getAs[String](columnNames(4)).get,
+      doc.getAs[String](columnNames(5)).get,
+      doc.getAs[String](columnNames(6)).get,
+      doc.getAs[String](columnNames(7)).get
     )
   }
 
   implicit object EventWriter extends BSONDocumentWriter[Event] {
     def write(event: Event): BSONDocument =
       BSONDocument(
-        "_id" -> event.id,
-        "title" -> event.title,
-        "description" -> event.description,
-        "category" -> event.category,
-        "startTime" -> event.startTime,
-        "endTime" -> event.endTime,
-        "latitude" -> event.latitude,
-        "longitude" -> event.longitude
+        columnNames(0) -> event.id,
+        columnNames(1) -> event.title,
+        columnNames(2) -> event.description,
+        columnNames(3) -> event.category,
+        columnNames(4) -> event.startTime,
+        columnNames(5) -> event.endTime,
+        columnNames(6) -> event.latitude,
+        columnNames(7) -> event.longitude
       )
   }
 }
