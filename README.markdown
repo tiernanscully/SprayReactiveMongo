@@ -4,7 +4,7 @@
 
 2. Download the Scala Build Tool (SBT), version 13.11: http://www.scala-sbt.org/download.html. Make sure to add SBT to your system path.
 
-3. Add the following line to ~/.sbt/0.13/global.sbt (If the file doesn't already exist, just create it.)
+3. Add the following line to ~/.sbt/0.13/global.sbt: (If the file doesn't already exist, just create it)
 
         resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
