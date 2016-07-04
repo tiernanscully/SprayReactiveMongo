@@ -14,6 +14,11 @@
 
 1. Download the IntelliJ IDEA with the Scala plugin: https://www.jetbrains.com/idea/
 
+## **Setting up Mongodb:** ##
+
+The version of mongodb we're using is 3.2, setup guide for relevant OS is here https://docs.mongodb.com/manual/installation/
+
+
 ## **Configure application:** ##
 
 Change the url for the backend server to the ip address of your machine.
