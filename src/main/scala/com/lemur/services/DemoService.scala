@@ -1,6 +1,6 @@
 package com.lemur.services
 
-import com.lemur.models.CommonMessageModel
+import com.lemur.model.CommonMessageModel
 import com.wordnik.swagger.annotations.{Api, _}
 import spray.http._
 import spray.routing.HttpService
@@ -13,7 +13,7 @@ trait DemoService extends HttpService {
     new ApiResponse(code = 200, message = "Demo message returned.")
   ))
   def demoRoute =
-    path("demo") {
+    path("list") {
       get {
         respondWithMediaType(MediaTypes.`application/json`) {
           complete {
