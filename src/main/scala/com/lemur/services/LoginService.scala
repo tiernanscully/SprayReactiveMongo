@@ -1,7 +1,7 @@
 package com.lemur.services
 
 import com.lemur.common.Constants._
-import com.lemur.models.CommonMessageModel
+import com.lemur.model.CommonMessageModel
 import com.lemur.utils.GoogleVerifier
 import com.wordnik.swagger.annotations._
 import spray.http.MediaTypes

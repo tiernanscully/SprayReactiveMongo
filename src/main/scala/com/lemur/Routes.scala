@@ -1,11 +1,11 @@
 package com.lemur
 
-import akka.actor.{Actor}
-import com.lemur.services.{DemoService, LoginService}
+import akka.actor.Actor
 import com.gettyimages.spray.swagger._
+import com.lemur.services.{DemoService, LoginService}
+import com.wordnik.swagger.model.ApiInfo
 
 import scala.reflect.runtime.universe._
-import com.wordnik.swagger.model.ApiInfo
 
 class RoutesActor extends Actor with LoginService with DemoService {
   override val actorRefFactory = context

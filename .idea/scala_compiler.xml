@@ -8,6 +8,9 @@
         <parameter value="-encoding" />
         <parameter value="utf8" />
       </parameters>
+      <plugins>
+        <plugin path="C:\Users\etiescu\.ivy2\cache\com.artima.supersafe\supersafe_2.11.8\jars\supersafe_2.11.8-1.1.0-RC6.jar" />
+      </plugins>
     </profile>
   </component>
 </project>
