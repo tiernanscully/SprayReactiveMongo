@@ -17,6 +17,14 @@ The version of mongodb we're using is 3.2, setup guide for relevant OS is here h
 
 ## **Configure application:** ##
 
+Create file ~/.sbt/0.13/global.sbt and add the following line to the file:
+
+```
+#!scala
+
+resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
+```
+
 Change the url for the backend server to the ip address of your machine.
 Edit the constant serverIpAddress in the file com/lemur/common.Constants.scala
 
