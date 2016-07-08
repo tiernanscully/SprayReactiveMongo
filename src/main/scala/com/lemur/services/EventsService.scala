@@ -16,7 +16,7 @@ trait EventsService extends HttpService {
 
   def eventsRoutes = getAllEventsRoute ~ getEventRoute ~ postEventRoute ~ putEventRoute
 
-  @ApiOperation(httpMethod = "GET", value = "Returns a list of events.")
+  @ApiOperation(httpMethod = "GET", value = "Returns a list of events.", response = classOf[Event])
   @ApiResponses(Array(
     new ApiResponse(code = 200, message = "List of events returned.")
   ))
